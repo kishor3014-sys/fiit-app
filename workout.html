@@ -20,6 +20,13 @@
     @media (max-width: 1024px) {
       .split-layout { flex-direction: column !important; }
       .left-panel, .right-panel { width: 100% !important; max-width: 100% !important; }
+        /* Mobile: right panel full width + natural height */
+  .right-panel {
+    max-height: none !important;
+    min-height: 300px;
+    overflow-y: visible;
+    padding-bottom: 80px;
+  }
     }
 
     .action-buttons {
@@ -3170,7 +3177,7 @@ function getBMICategory(bmi) {
     </aside>
 
     <!-- RIGHT: Workout Display -->
-    <main id="right-panel" class="right-panel flex-1 bg-gray-900 p-6 overflow-y-auto h-screen">
+    <main id="right-panel" class="right-panel flex-1 bg-gray-900 p-6 overflow-y-auto">
       <!-- Placeholder content rendered by JS -->
     </main>
   </div>
