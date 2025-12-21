@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - FitCoach Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #ec4899 100%);
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 450px;
+    }
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #64748b;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .tab.active {
+      color: #7c3aed;
+    }
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #7c3aed;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #334155;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(124, 58, 237, 0.4);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .message {
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .error {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+    .success {
+      background: #d1fae5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+    .info {
+      background: #dbeafe;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+    }
+    .hidden {
+      display: none;
+    }
+    .demo-btn {
+      margin-top: 15px;
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .demo-btn:hover {
+      background: #e2e8f0;
+    }
+    .footer-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    .footer-link a {
+      color: #7c3aed;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏋️ FitCoach Pro</h1>
+    <p class="subtitle">Your personal fitness journey starts here</p>
+    
+    <div id="message" class="message hidden"></div>
+    
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('signin')">Sign In</button>
+      <button class="tab" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+    
+    <!-- Sign In Form -->
+    <form id="signinForm" onsubmit="handleSignIn(event)">
+      <div class="form-group">
+        <label for="signin-email">Email</label>
+        <input type="email" id="signin-email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn btn-primary" id="signin-btn">
+        Sign In
+      </button>
+      <button type="button" class="btn demo-btn" onclick="fillDemoCredentials()">
+        Try Demo Account
+      </button>
+    </form>
+    
+    <!-- Sign Up Form -->
+    <form id="signupForm" class="hidden" onsubmit="handleSignUp(event)">
+      <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="Minimum 6 characters" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label for="signup-password-confirm">Confirm Password</label>
+        <input type="password" id="signup-password-confirm" placeholder="Re-enter password" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary" id="signup-btn">
+        Create Account
+      </button>
+    </form>
+    
+    <div class="footer-link">
+      <a href="main.html">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Load Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://ignyigcedltdwwefzbtl.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlnbnlpZ2NlZGx0ZHd3ZWZ6YnRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NDE4NDAsImV4cCI6MjA3MDIxNzg0MH0.4wR8w-cY94k9jBRdEl8bE9gfFa6of3eA6qiBd_37r3k';
+    
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Switch between Sign In and Sign Up tabs
+    function switchTab(tab) {
+      const tabs = document.querySelectorAll('.tab');
+      const signinForm = document.getElementById('signinForm');
+      const signupForm = document.getElementById('signupForm');
+      
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      if (tab === 'signin') {
+        tabs[0].classList.add('active');
+        signinForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+      } else {
+        tabs[1].classList.add('active');
+        signinForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+      }
+      
+      hideMessage();
+    }
+    
+    // Show message
+    function showMessage(text, type = 'info') {
+      const messageEl = document.getElementById('message');
+      messageEl.textContent = text;
+      messageEl.className = `message ${type}`;
+      messageEl.classList.remove('hidden');
+    }
+    
+    // Hide message
+    function hideMessage() {
+      document.getElementById('message').classList.add('hidden');
+    }
+    
+    // Handle Sign In
+    async function handleSignIn(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('signin-email').value;
+      const password = document.getElementById('signin-password').value;
+      const btn = document.getElementById('signin-btn');
+      
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+      hideMessage();
+      
+      try {
+        console.log('🔐 Attempting sign in for:', email);
+        
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+        
+        if (error) {
+          console.error('❌ Sign in error:', error);
+          showMessage(error.message, 'error');
+          btn.disabled = false;
+          btn.textContent = 'Sign In';
+          return;
+        }
+        
+        console.log('✅ Sign in successful!');
+        showMessage('Sign in successful! Redirecting...', 'success');
+        
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+        
+      } catch (err) {
+        console.error('💥 Unexpected error:', err);
+        showMessage('An unexpected error occurred. Please try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    }
+    
+    // Handle Sign Up
+    async function handleSignUp(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const confirmPassword = document.getElementById('signup-password-confirm').value;
+      const btn = document.getElementById('signup-btn');
+      
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        showMessage('Passwords do not match!', 'error');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+      hideMessage();
+      
+      try {
+        console.log('📝 Attempting sign up for:', email);
+        
+        const { data, error } = await supabaseClient.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: name
+            }
+          }
+        });
+        
+        if (error) {
+          console.error('❌ Sign up error:', error);
+          showMessage(error.message, 'error');
+          btn.disabled = false;
+          btn.textContent = 'Create Account';
+          return;
+        }
+        
+        console.log('✅ Sign up successful!');
+        showMessage('Account created! Please check your email to verify your account.', 'success');
+        
+        // Switch to sign in after 3 seconds
+        setTimeout(() => {
+          switchTab('signin');
+          document.getElementById('signin-email').value = email;
+        }, 3000);
+        
+      } catch (err) {
+        console.error('💥 Unexpected error:', err);
+        showMessage('An unexpected error occurred. Please try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+      }
+    }
+    
+    // Fill demo credentials
+    function fillDemoCredentials() {
+      document.getElementById('signin-email').value = 'demo@fitcoach.com';
+      document.getElementById('signin-password').value = 'demo123';
+      showMessage('Demo credentials filled. Click Sign In to continue.', 'info');
+    }
+    
+    // Check if already logged in
+    async function checkExistingSession() {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+          console.log('✅ Already logged in, redirecting to dashboard...');
+          window.location.href = 'dashboard.html';
+        }
+      } catch (err) {
+        console.error('Error checking session:', err);
+      }
+    }
+    
+    // Check on page load
+    checkExistingSession();
+  </script>
+</body>
+</html>

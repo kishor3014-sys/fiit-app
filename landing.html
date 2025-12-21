@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitCoach Pro - Your Personal Fitness Journey</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #ec4899 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      top: -200px;
+      right: -200px;
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      bottom: -150px;
+      left: -150px;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-30px); }
+    }
+    .hero-content {
+      max-width: 800px;
+      z-index: 1;
+      animation: fadeInUp 1s ease-out;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .hero .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: white;
+      color: #7c3aed;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 100px 20px;
+      background: #f8fafc;
+    }
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      color: #1e3a8a;
+      margin-bottom: 60px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    .feature-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s;
+      text-align: center;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    .feature-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    .feature-title {
+      font-size: 1.5rem;
+      color: #1e3a8a;
+      margin-bottom: 15px;
+    }
+    .feature-desc {
+      color: #64748b;
+      line-height: 1.6;
+    }
+    
+    /* Stats Section */
+    .stats {
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+      color: white;
+    }
+    .stats-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+    .stat-item {
+      padding: 20px;
+    }
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .stat-label {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 100px 20px;
+      background: #f8fafc;
+      text-align: center;
+    }
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-size: 3rem;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+    .cta-section p {
+      font-size: 1.3rem;
+      color: #64748b;
+      margin-bottom: 40px;
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 40px 20px;
+      background: #1e293b;
+      color: white;
+      text-align: center;
+    }
+    .footer p {
+      opacity: 0.8;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero .subtitle {
+        font-size: 1.2rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>🏋️ FitCoach Pro</h1>
+      <p class="subtitle">Transform Your Body, Transform Your Life</p>
+      <div class="cta-buttons">
+        <a href="signin.html" class="btn btn-primary">Get Started Free</a>
+        <a href="signin.html" class="btn btn-secondary">Sign In</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-container">
+      <h2 class="section-title">Why Choose FitCoach Pro?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">💪</div>
+          <h3 class="feature-title">Personalized Workouts</h3>
+          <p class="feature-desc">Custom workout plans tailored to your fitness level, goals, and available equipment.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Progress Tracking</h3>
+          <p class="feature-desc">Monitor your improvements with detailed analytics and visualizations.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🥗</div>
+          <h3 class="feature-title">Nutrition Guidance</h3>
+          <p class="feature-desc">Meal plans and nutrition tracking to support your fitness journey.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Goal Setting</h3>
+          <p class="feature-desc">Set and achieve your fitness goals with our smart tracking system.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3 class="feature-title">Achievements</h3>
+          <p class="feature-desc">Earn badges and rewards as you hit your milestones.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤝</div>
+          <h3 class="feature-title">Community Support</h3>
+          <p class="feature-desc">Join a community of fitness enthusiasts and stay motivated.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">50K+</div>
+        <div class="stat-label">Workouts Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4.8★</div>
+        <div class="stat-label">User Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Start Your Journey?</h2>
+      <p>Join thousands of users who are already transforming their lives with FitCoach Pro</p>
+      <a href="signin.html" class="btn btn-primary">Sign Up Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 FitCoach Pro. All rights reserved.</p>
+    <p style="margin-top: 10px; font-size: 0.9rem;">Your journey to better health starts here 💪</p>
+  </footer>
+
+  <!-- NO Supabase script here - this is a public page -->
+  <!-- NO authentication check - this is the landing page -->
+  
+  <script>
+    // Simple page load animation
+    console.log('🏋️ Welcome to FitCoach Pro!');
+    console.log('This is the public landing page - no authentication required');
+    
+    // Optional: Check if user is already logged in and show different buttons
+    // But DON'T redirect automatically - let them browse the landing page
+  </script>
+</body>
+</html>
