@@ -444,7 +444,9 @@
   // Enhanced Translation object with comprehensive translations including nutrition
   const labels = {
     en: {
-      clientName: "Client Name *", age: "Age *", height: "Height (cm) *", weight: "Weight (kg) *",
+      clientName: "Client Name *", age: "Age *", height: "Height (ft / in) *", weight: "Weight (kg) *", ft: "ft",
+  inch: "in",
+  kg: "kg",
       gender: "Gender *", equipment: "Available Equipment *", goal: "Fitness Goal *",
       workoutDays: "Workout Days per Week *", fitnessLevel: "Fitness Level *",
       generate: "🚀 Generate Plan", reset: "🔄 Reset Form",
@@ -454,7 +456,7 @@
       male: "Male", female: "Female",
       fullGym: "Full Gym Equipment", homeGym: "Home Gym (Dumbbells/Bands)",
       bodyweight: "Bodyweight Only", minimal: "Minimal Equipment",
-      weightLoss: "Weight Loss", muscleGain: "Muscle Gain", strengthTraining: "Strength Training",
+      weightLoss: "Weight Loss",weightGain: "Weight Gain", muscleGain: "Muscle Gain", strengthTraining: "Strength Training",
       endurance: "Endurance", generalFitness: "General Fitness", toning: "Toning",
       oneDay: "1 days per week", twoDays: "2 days per week", threeDays: "3 days per week",
       fourDays: "4 days per week", fiveDays: "5 days per week", sixDays: "6 days per week", sevenDays: "7 days per week",
@@ -475,7 +477,9 @@
       dailyCalories: "Daily Target", nutritionTips: "Nutrition Tips", calories: "calories", protein: "protein"
     },
     hi: {
-      clientName: "क्लाइंट नाम *", age: "आयु *", height: "लंबाई (सेमी) *", weight: "वजन (किलो) *",
+      clientName: "क्लाइंट नाम *", age: "आयु *", height: "लंबाई (फीट / इंच) *", weight: "वजन (किलो) *",ft: "फीट",
+  inch: "इंच",
+  kg: "किलो",
       gender: "लिंग *", equipment: "उपलब्ध उपकरण *", goal: "फिटनेस लक्ष्य *",
       workoutDays: "सप्ताह में व्यायाम दिन *", fitnessLevel: "फिटनेस स्तर *",
       generate: "🚀 प्लान बनाएं", reset: "🔄 फॉर्म रीसेट करें",
@@ -485,7 +489,7 @@
       male: "पुरुष", female: "महिला",
       fullGym: "पूर्ण जिम उपकरण", homeGym: "होम जिम (डम्बल/बैंड)",
       bodyweight: "केवल शरीर का वजन", minimal: "न्यूनतम उपकरण",
-      weightLoss: "वजन कम करना", muscleGain: "मांसपेशी बढ़ाना", strengthTraining: "शक्ति प्रशिक्षण",
+      weightLoss: "वजन कम करना", weightGain: "वजन बढ़ाना", muscleGain: "मांसपेशी बढ़ाना", strengthTraining: "शक्ति प्रशिक्षण",
       endurance: "सहनशीलता", generalFitness: "सामान्य फिटनेस", toning: "टोनिंग",
       oneDay: "सप्ताह में 1 दिन", twoDays: "सप्ताह में 2 दिन", threeDays: "सप्ताह में 3 दिन",
       fourDays: "सप्ताह में 4 दिन", fiveDays: "सप्ताह में 5 दिन", sixDays: "सप्ताह में 6 दिन", sevenDays: "सप्ताह में 7 दिन",
@@ -828,7 +832,8 @@ function updateMealCard(mealType, mealData) {
             </svg>
             <div>
               <p class="text-xs text-gray-300">${labels[currentLang].heightWeight}</p>
-              <p class="font-semibold text-sm">${escapeHtml(data.clientInfo.height)} ${labels[currentLang].cm} / ${escapeHtml(data.clientInfo.weight)} ${labels[currentLang].kg}</p>
+              <p class="font-semibold text-sm">  ${escapeHtml(data.clientInfo.heightFeet)}${labels[currentLang].ft}
+  ${escapeHtml(data.clientInfo.heightInches)}${labels[currentLang].inch} / ${escapeHtml(data.clientInfo.weight)} ${labels[currentLang].kg}</p>
             </div>
           </div>
 
@@ -1159,7 +1164,19 @@ function updateMealCard(mealType, mealData) {
       yPos += 4;
       addText(`${labels[currentLang].fitnessLevel}: ${currentWorkout.clientInfo.fitnessLevel}`, 15, yPos);
       yPos += 4;
-      addText(`${labels[currentLang].height}: ${currentWorkout.clientInfo.height || 'N/A'} ${labels[currentLang].cm}`, 15, yPos);
+      const hf = currentWorkout.clientInfo.heightFeet;
+      const hi = currentWorkout.clientInfo.heightInches;
+
+      const heightFeetText =(hf !== undefined && hf !== null && hf !== '') ? hf : 'N/A';
+      const heightInchText =(hi !== undefined && hi !== null && hi !== '') ? hi : 'N/A';
+
+      addText(`${labels[currentLang].height}: ` +
+      `${heightFeetText} ${labels[currentLang].ft} ` +
+      `${heightInchText} ${labels[currentLang].inch}`,
+      15,
+      yPos
+      );
+
       yPos += 4;
       addText(`${labels[currentLang].weight}: ${currentWorkout.clientInfo.weight || 'N/A'} ${labels[currentLang].kg}`, 15, yPos);
       yPos += 4;
@@ -1614,7 +1631,8 @@ function generateHindiHTMLContent() {
         <p style="margin: 2px 0;"><strong>लक्ष्य:</strong> ${currentWorkout.clientInfo.goal}</p>
         <p style="margin: 2px 0;"><strong>अनुसूची:</strong> ${currentWorkout.clientInfo.workoutDays}</p>
         <p style="margin: 2px 0;"><strong>स्तर:</strong> ${currentWorkout.clientInfo.fitnessLevel}</p>
-        <p style="margin: 2px 0;"><strong>लंबाई:</strong> ${currentWorkout.clientInfo.height} सेमी</p>
+        <p style="margin: 2px 0;"><strong>लंबाई:</strong>  ${currentWorkout.clientInfo.heightFeet} फीट
+  ${currentWorkout.clientInfo.heightInches} इंच</p>
         <p style="margin: 2px 0;"><strong>वजन:</strong> ${currentWorkout.clientInfo.weight} किलो</p>
         <p style="margin: 2px 0;"><strong>बीएमआई:</strong> ${currentWorkout.clientInfo.bmi}</p>
         <p style="margin: 2px 0;"><strong>उपकरण:</strong> ${currentWorkout.clientInfo.equipment}</p>
@@ -2072,7 +2090,8 @@ async function handleSubmit(ev) {
   const body = {
     Client: form.Client.value.trim(),
     Age: form.Age.value.trim(),
-    Height: form.height.value,                    
+    HeightFeet: form.heightFeet.value,
+    HeightInches: form.heightInches.value,                  
     Weight: form.weight.value,                    
     BMI: calculateBMIValue(),
     Gender: form.Gender.value,
@@ -2145,7 +2164,8 @@ async function handleSubmit(ev) {
     payload.clientInfo = payload.clientInfo || {};
     payload.clientInfo.name = payload.clientInfo.name || body.Client;
     payload.clientInfo.age = payload.clientInfo.age || body.Age;
-    payload.clientInfo.height = payload.clientInfo.height || body.Height;
+    payload.clientInfo.heightFeet =payload.clientInfo.heightFeet || body.HeightFeet;
+    payload.clientInfo.heightInches =payload.clientInfo.heightInches || body.HeightInches;
     payload.clientInfo.weight = payload.clientInfo.weight || body.Weight;
     payload.clientInfo.bmi = payload.clientInfo.bmi || body.BMI;
     payload.clientInfo.goal = payload.clientInfo.goal || body.Goal;
@@ -2345,7 +2365,7 @@ function setLoading(isLoading) {
       else if (text === 'Age *' || text === 'आयु *') {
         label.textContent = labels[currentLang].age;
       }
-      else if (text === 'Height (cm) *' || text === 'लंबाई (सेमी) *') {
+      else if (text === 'Height (ft / in) *' || text === 'लंबाई (फीट / इंच) *') {
         label.textContent = labels[currentLang].height;
       }
       else if (text === 'Weight (kg) *' || text === 'वजन (किलो) *') {
@@ -2409,11 +2429,12 @@ function setLoading(isLoading) {
     if (goalOptions.length > 0) {
       goalOptions[0].textContent = labels[currentLang].selectGoal;
       if (goalOptions[1]) goalOptions[1].textContent = labels[currentLang].weightLoss;
-      if (goalOptions[2]) goalOptions[2].textContent = labels[currentLang].muscleGain;
-      if (goalOptions[3]) goalOptions[3].textContent = labels[currentLang].strengthTraining;
-      if (goalOptions[4]) goalOptions[4].textContent = labels[currentLang].endurance;
-      if (goalOptions[5]) goalOptions[5].textContent = labels[currentLang].generalFitness;
-      if (goalOptions[6]) goalOptions[6].textContent = labels[currentLang].toning;
+      if (goalOptions[2]) goalOptions[2].textContent = labels[currentLang].weightGain;
+      if (goalOptions[3]) goalOptions[3].textContent = labels[currentLang].muscleGain;
+      if (goalOptions[4]) goalOptions[4].textContent = labels[currentLang].strengthTraining;
+      if (goalOptions[5]) goalOptions[5].textContent = labels[currentLang].endurance;
+      if (goalOptions[6]) goalOptions[6].textContent = labels[currentLang].generalFitness;
+      if (goalOptions[7]) goalOptions[7].textContent = labels[currentLang].toning;
     }
 
     // Update Days dropdown
@@ -2957,56 +2978,60 @@ async function incrementPlanCount(clientName, planData) {
 
 function calculateBMI() {
   console.log('calculateBMI function called');
-  
+
   try {
-    // Check if elements exist
-    const heightInput = document.getElementById('height');
+    const heightFeetInput = document.getElementById('heightFeet');
+    const heightInchesInput = document.getElementById('heightInches');
     const weightInput = document.getElementById('weight');
     const bmiDisplay = document.getElementById('bmiDisplay');
-    
-    if (!heightInput || !weightInput || !bmiDisplay) {
+
+    if (!heightFeetInput || !heightInchesInput || !weightInput || !bmiDisplay) {
       console.error('BMI elements not found!');
       return;
     }
-    
-    const height = parseFloat(heightInput.value);
+
+    const feet = parseFloat(heightFeetInput.value);
+    const inches = parseFloat(heightInchesInput.value);
     const weight = parseFloat(weightInput.value);
-    
-    console.log('Height:', height, 'Weight:', weight);
-    
-    // Clear display if either field is empty or invalid
-    if (!height || !weight || height <= 0 || weight <= 0) {
+
+    console.log('Feet:', feet, 'Inches:', inches, 'Weight:', weight);
+
+    // Agar koi value sahi nahi hai to BMI clear kar do
+    if (
+      isNaN(feet) || isNaN(inches) || isNaN(weight) ||
+      feet <= 0 || inches < 0 || inches >= 12 || weight <= 0
+    ) {
       bmiDisplay.textContent = '';
       return;
     }
-    
-    // Calculate BMI
-    const heightInMeters = height / 100;
+
+    // Feet + inches ko meters me convert karo
+    const totalInches = feet * 12 + inches;
+    const heightInMeters = totalInches * 0.0254;
+
     const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
     const bmiValue = parseFloat(bmi);
-    
-    // Category selection (with fallback for undefined currentLang)
+
     let category = '';
     const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
-    
+
     if (lang === 'hi') {
       if (bmiValue < 18.5) category = '(कम वजन)';
       else if (bmiValue < 25) category = '(सामान्य)';
-      else if (bmiValue < 30) category = '(अधिक वजन)';
+      else if (bmiValue < 30) category = '(अधिक وزن)';
       else category = '(मोटापा)';
-      
+
       bmiDisplay.textContent = `बीएमआई: ${bmi} ${category}`;
     } else {
       if (bmiValue < 18.5) category = '(Underweight)';
       else if (bmiValue < 25) category = '(Normal)';
       else if (bmiValue < 30) category = '(Overweight)';
       else category = '(Obese)';
-      
+
       bmiDisplay.textContent = `BMI: ${bmi} ${category}`;
     }
-    
+
     console.log(`✅ BMI calculated: ${bmi} ${category}`);
-    
   } catch (error) {
     console.error('Error in calculateBMI:', error);
   }
@@ -3014,18 +3039,28 @@ function calculateBMI() {
 
 
 
+
 function calculateBMIValue() {
-  const heightInput = document.getElementById('height');
+  const heightFeetInput = document.getElementById('heightFeet');
+  const heightInchesInput = document.getElementById('heightInches');
   const weightInput = document.getElementById('weight');
-  
-  if (!heightInput || !weightInput) return null;
-  
-  const height = parseFloat(heightInput.value);
+
+  if (!heightFeetInput || !heightInchesInput || !weightInput) return null;
+
+  const feet = parseFloat(heightFeetInput.value);
+  const inches = parseFloat(heightInchesInput.value);
   const weight = parseFloat(weightInput.value);
-  
-  if (!height || !weight || height <= 0 || weight <= 0) return null;
-  
-  const heightInMeters = height / 100;
+
+  if (
+    isNaN(feet) || isNaN(inches) || isNaN(weight) ||
+    feet <= 0 || inches < 0 || inches >= 12 || weight <= 0
+  ) {
+    return null;
+  }
+
+  const totalInches = feet * 12 + inches;
+  const heightInMeters = totalInches * 0.0254;   // 1 inch = 0.0254 m
+
   return parseFloat((weight / (heightInMeters * heightInMeters)).toFixed(1));
 }
 
@@ -3088,10 +3123,49 @@ function getBMICategory(bmi) {
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-medium text-gray-300 mb-1">Height (cm) *</label>
-              <input id="height" name="height" type="number" min="100" max="220" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="170" required oninput="calculateBMI()">
-            </div>
+           <!-- Height in feet + inches -->
+<div>
+  <label class="block text-xs font-medium text-gray-300 mb-1">Height *</label>
+
+  <div class="flex gap-3">
+    <!-- Feet -->
+    <div class="flex-1">
+      <label for="heightFeet" class="block text-xs text-gray-400 mb-1">Feet</label>
+      <select id="heightFeet" name="heightFeet"
+        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        required onchange="calculateBMI()">
+        <option value="">--</option>
+        <option value="4">4 ft</option>
+        <option value="5">5 ft</option>
+        <option value="6">6 ft</option>
+        <option value="7">7 ft</option>
+      </select>
+    </div>
+
+    <!-- Inches -->
+    <div class="flex-1">
+      <label for="heightInches" class="block text-xs text-gray-400 mb-1">Inches</label>
+      <select id="heightInches" name="heightInches"
+        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        required onchange="calculateBMI()">
+        <option value="">--</option>
+        <option value="0">0 in</option>
+        <option value="1">1 in</option>
+        <option value="2">2 in</option>
+        <option value="3">3 in</option>
+        <option value="4">4 in</option>
+        <option value="5">5 in</option>
+        <option value="6">6 in</option>
+        <option value="7">7 in</option>
+        <option value="8">8 in</option>
+        <option value="9">9 in</option>
+        <option value="10">10 in</option>
+        <option value="11">11 in</option>
+      </select>
+    </div>
+  </div>
+</div>
+
             
             <div>
               <label class="block text-xs font-medium text-gray-300 mb-1">Weight (kg) *</label>
@@ -3128,6 +3202,7 @@ function getBMICategory(bmi) {
             <select id="Goal" name="Goal" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
               <option value="">Select Goal</option>
               <option value="Weight Loss">Weight Loss</option>
+              <option value="Weight Gain">Weight Gain</option>
               <option value="Muscle Gain">Muscle Gain</option>
               <option value="Strength Training">Strength Training</option>
               <option value="Endurance">Endurance</option>
