@@ -201,10 +201,20 @@
         <label for="signup-name">Full Name</label>
         <input type="text" id="signup-name" placeholder="John Doe" required>
       </div>
+
       <div class="form-group">
         <label for="signup-email">Email</label>
         <input type="email" id="signup-email" placeholder="your@email.com" required>
       </div>
+      
+  <!-- NEW: Gym Name field (optional) -->
+  <div class="form-group">
+    <label for="signup-gym-name">
+      Gym Name <span style="color: #999; font-size: 12px;">(optional)</span>
+    </label>
+    <input type="text" id="signup-gym-name" placeholder="e.g., Oxygen Pro, Gold's Gym">
+  </div>
+  <!-- END NEW -->
       <div class="form-group">
         <label for="signup-password">Password</label>
         <input type="password" id="signup-password" placeholder="Minimum 6 characters" required minlength="6">
@@ -316,6 +326,7 @@
       
       const name = document.getElementById('signup-name').value;
       const email = document.getElementById('signup-email').value;
+      const gymName = document.getElementById('signup-gym-name').value.trim(); // NEW
       const password = document.getElementById('signup-password').value;
       const confirmPassword = document.getElementById('signup-password-confirm').value;
       const btn = document.getElementById('signup-btn');
@@ -338,7 +349,8 @@
           password: password,
           options: {
             data: {
-              full_name: name
+              full_name: name,
+              gym_name: gymName || 'FitCoach Pro'  // NEW: gym name save karo, agar empty ho to default
             }
           }
         });
